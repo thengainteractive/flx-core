@@ -1,0 +1,14 @@
+{
+    "name": "Contacts",
+    "alias": "contacts",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Contacts\\Providers\\ContactsServiceProvider"
+    ],
+    "filament": {
+        "plugin": "Modules\\Contacts\\ContactsPlugin"
+    },
+    "files": []
+}

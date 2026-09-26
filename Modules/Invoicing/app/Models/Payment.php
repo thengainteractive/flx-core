@@ -1,0 +1,19 @@
+<?php
+
+namespace Modules\Invoicing\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Payment extends Model
+{
+    protected $guarded = [];
+
+    protected $casts = [
+        'payment_date' => 'date',
+    ];
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+}

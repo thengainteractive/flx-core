@@ -1,0 +1,14 @@
+{
+    "name": "Blog",
+    "alias": "blog",
+    "description": "Blog, Articles and Categories content publishing module",
+    "keywords": ["blog", "posts", "categories"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Blog\\Providers\\BlogServiceProvider"
+    ],
+    "filament": {
+        "plugin": "Modules\\Blog\\BlogPlugin"
+    },
+    "files": []
+}

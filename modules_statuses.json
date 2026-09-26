@@ -1,0 +1,8 @@
+{
+    "Blog": false,
+    "Catalog": false,
+    "Page": false,
+    "Contacts": true,
+    "Invoicing": false,
+    "Venue": true
+}
