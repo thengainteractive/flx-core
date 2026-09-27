@@ -9,5 +9,6 @@ class VenueType extends Model
     protected $fillable = [
         'name',
         'slug',
+        'image',
     ];
 }

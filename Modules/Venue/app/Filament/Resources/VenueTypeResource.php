@@ -49,6 +49,32 @@ class VenueTypeResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->label('Cover Image')
+                    ->image()
+                    ->directory('venue-types')
+                    ->getUploadedFileNameForStorageUsing(function (\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string {
+                        return (string) \Illuminate\Support\Str::uuid() . '.webp';
+                    })
+                    ->afterStateUpdated(function ($state, \Filament\Schemas\Components\Utilities\Set $set) {
+                        if (blank($state)) return;
+                        
+                        if ($state instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                            $path = $state->getRealPath();
+                            
+                            if (file_exists($path)) {
+                                try {
+                                    \Spatie\Image\Image::load($path)
+                                        ->format('webp')
+                                        ->quality(60)
+                                        ->optimize()
+                                        ->save($path);
+                                } catch (\Exception $e) {
+                                    \Illuminate\Support\Facades\Log::error('Venue Type image conversion failed: ' . $e->getMessage());
+                                }
+                            }
+                        }
+                    }),
             ]);
     }
 
@@ -56,6 +82,8 @@ class VenueTypeResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')

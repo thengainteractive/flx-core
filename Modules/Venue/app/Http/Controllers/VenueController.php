@@ -25,14 +25,16 @@ class VenueController extends Controller
         }
 
         if ($request->filled('location')) {
-            $query->whereHas('location', function ($q) use ($request) {
-                $q->where('slug', $request->input('location'));
+            $locations = (array) $request->input('location');
+            $query->whereHas('location', function ($q) use ($locations) {
+                $q->whereIn('slug', $locations);
             });
         }
 
         if ($request->filled('type')) {
-            $query->whereHas('venueType', function ($q) use ($request) {
-                $q->where('slug', $request->input('type'));
+            $types = (array) $request->input('type');
+            $query->whereHas('venueType', function ($q) use ($types) {
+                $q->whereIn('slug', $types);
             });
         }
 
@@ -109,6 +111,7 @@ class VenueController extends Controller
                 'id' => $venue->venueType->id,
                 'name' => $venue->venueType->name,
                 'slug' => $venue->venueType->slug,
+                'image' => $venue->venueType->image ? \Illuminate\Support\Facades\Storage::url($venue->venueType->image) : null,
             ] : null,
 
             // Only expose clean image URLs
@@ -134,15 +137,54 @@ class VenueController extends Controller
 
     /**
      * Display dynamic dropdown options for frontend search UI.
+     * @deprecated Use /venues/locations and /venues/types separately.
      */
     public function filters()
     {
-        $locations = Location::select('id', 'city', 'district', 'state', 'slug')->get();
-        $types = VenueType::select('id', 'name', 'slug')->get();
-
         return response()->json([
-            'locations' => $locations,
-            'types' => $types,
-        ]);
+            'locations' => Location::select('id', 'city', 'district', 'state', 'slug')->get(),
+            'types'     => VenueType::select('id', 'name', 'slug', 'image')->get()->map(function ($type) {
+                return [
+                    'id' => $type->id,
+                    'name' => $type->name,
+                    'slug' => $type->slug,
+                    'image' => $type->image ? \Illuminate\Support\Facades\Storage::url($type->image) : null,
+                ];
+            }),
+        ])->header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
+    }
+
+    /**
+     * Return all venue locations.
+     */
+    public function locations()
+    {
+        $locations = Location::select('id', 'city', 'district', 'state', 'slug')
+            ->orderBy('city')
+            ->get();
+
+        return response()->json($locations)
+            ->header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
+    }
+
+    /**
+     * Return all venue types.
+     */
+    public function types()
+    {
+        $types = VenueType::select('id', 'name', 'slug', 'image')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($type) {
+                return [
+                    'id' => $type->id,
+                    'name' => $type->name,
+                    'slug' => $type->slug,
+                    'image' => $type->image ? \Illuminate\Support\Facades\Storage::url($type->image) : null,
+                ];
+            });
+
+        return response()->json($types)
+            ->header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
     }
 }

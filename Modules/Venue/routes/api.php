@@ -15,7 +15,9 @@ use Modules\Venue\Http\Controllers\VenueController;
 */
 
 Route::middleware(['api', 'throttle:60,1'])->prefix('v1')->group(function () {
-    Route::get('venues/filters', [VenueController::class, 'filters']);
-    Route::get('venues', [VenueController::class, 'index']);
-    Route::get('venues/{slug}', [VenueController::class, 'show']);
+    Route::get('venues/filters',   [VenueController::class, 'filters']);
+    Route::get('venues/locations', [VenueController::class, 'locations']);
+    Route::get('venues/types',     [VenueController::class, 'types']);
+    Route::get('venues',           [VenueController::class, 'index']);
+    Route::get('venues/{slug}',    [VenueController::class, 'show']);
 });
