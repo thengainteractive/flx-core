@@ -4,5 +4,9 @@
     "Page": false,
     "Contacts": true,
     "Invoicing": false,
-    "Venue": true
+    "Venue": true,
+    "Fleet": true,
+    "Test": true,
+    "Staff": true,
+    "Payroll": true
 }

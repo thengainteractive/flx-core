@@ -1,0 +1,19 @@
+<?php
+
+namespace Modules\{{ module }}\Filament\Resources\{{ resourceClass }}\Pages;
+
+use Modules\{{ module }}\Filament\Resources\{{ resourceClass }};
+use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
+
+class Edit{{ modelClass }} extends EditRecord
+{
+    protected static string $resource = {{ resourceClass }}::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\DeleteAction::make(),
+        ];
+    }
+}

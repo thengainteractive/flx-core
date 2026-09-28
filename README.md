@@ -84,10 +84,10 @@ php artisan key:generate
 php artisan migrate
 
 # Create your admin user
-php artisan make:filament-user --name="Admin User" --email="admin@example.com" --password="password"
+php artisan flx:make-user --name="Admin User" --email="admin@example.com" --password="password"
 
 # Run module migrations
-php artisan module:migrate --force
+php artisan flx:module-migrate --force
 
 # Start development server
 php artisan serve
@@ -114,22 +114,22 @@ php artisan serve
 
 ```bash
 # List all installed modules & statuses
-php artisan module:list
+php artisan flx:module-list
 
 # Enable a module
-php artisan module:enable Blog
+php artisan flx:module-enable Blog
 
 # Disable a module
-php artisan module:disable Blog
+php artisan flx:module-disable Blog
 
 # Run migrations for all enabled modules
-php artisan module:migrate
+php artisan flx:module-migrate
 
 # Run migrations for a specific module
-php artisan module:migrate Catalog --force
+php artisan flx:module-migrate Catalog --force
 
 # Rollback migrations for a module (drops tables)
-php artisan module:migrate-rollback Blog
+php artisan flx:module-migrate-rollback Blog
 ```
 
 ---
@@ -175,7 +175,7 @@ Each module inside `Modules/{Name}` is 100% self-contained:
 1. **Copy & Paste**: Simply copy the `Modules/{Name}` folder from Project A into Project B's `Modules/` directory.
 2. **Enable & Migrate**:
    - In Dashboard: Click **Enable** on the new module.
-   - Or CLI: `php artisan module:enable {Name} && php artisan module:migrate {Name} --force`
+   - Or CLI: `php artisan flx:module-enable {Name} && php artisan flx:module-migrate {Name} --force`
 3. That's it! The admin panel in Project B will instantly register the navigation items, forms, tables, and routes.
 
 ---
@@ -187,7 +187,7 @@ Each module inside `Modules/{Name}` is 100% self-contained:
 
 > **Q: How do I completely erase a module's data?**  
 > **A:** If you explicitly want to drop a module's database tables, run:  
-> `php artisan module:migrate-rollback {ModuleName}`
+> `php artisan flx:module-migrate-rollback {ModuleName}`
 
 ---
 
