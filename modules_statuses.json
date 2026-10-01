@@ -8,5 +8,6 @@
     "Fleet": true,
     "Test": true,
     "Staff": true,
-    "Payroll": true
+    "Payroll": false,
+    "FormBuilder": false
 }

@@ -61,7 +61,15 @@ flx/
 
 ---
 
-## 🚀 Quick Start Guide
+## 📚 Official Documentation
+
+Comprehensive documentation has been split into dedicated guides:
+- [Getting Started & Installation](docs/getting_started.md)
+- [Roles & Permissions (Authorization)](docs/roles_and_permissions.md)
+- [Module Management (Creation & Migration)](docs/module_management.md)
+- [Agency Git Workflow](docs/agency_workflow.md)
+
+---
 
 ### 1. Requirements
 - PHP 8.2+
@@ -188,6 +196,17 @@ Each module inside `Modules/{Name}` is 100% self-contained:
 > **Q: How do I completely erase a module's data?**  
 > **A:** If you explicitly want to drop a module's database tables, run:  
 > `php artisan flx:module-migrate-rollback {ModuleName}`
+
+---
+
+## 🚀 Roadmap & Future Features
+
+As the FLX Core evolves, the following features are planned for future development to make application management even more seamless:
+
+*   **Private "App Store" (GUI Installer)**: A secure Filament GUI interface allowing you to install modules directly from a private API or trusted Git repository without touching the terminal.
+*   **Module Versioning & OTA Updates**: Automatically check for core module updates and deploy them to running applications Over-The-Air via the dashboard.
+*   **Advanced Dependency Management**: Allow modules to require other modules (e.g., `Invoicing` requires `Contacts`), ensuring correct boot and migration ordering.
+*   **CLI Theme Scaffolding**: Dedicated commands to scaffold and isolate custom Filament themes for specific modules or client branding.
 
 ---
 

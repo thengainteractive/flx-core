@@ -32,6 +32,14 @@ class ManageModules extends Page implements HasTable
 
     protected string $view = 'filament.pages.manage-modules';
 
+    public static function canAccess(): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
+        return $user && $user->hasRole('Super Admin');
+    }
+
     public function table(Table $table): Table
     {
         return $table

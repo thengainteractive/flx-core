@@ -35,7 +35,13 @@ The core `AdminPanelProvider` (`app/Providers/Filament/AdminPanelProvider.php`) 
 - Module states (enabled/disabled) are tracked by `nwidart/laravel-modules`, commonly via `modules_statuses.json`.
 - A custom wrapper exists at `app/Core/ModuleRegistry.php` to fetch metadata, toggle states, and check if specific modules are enabled. Use this registry when cross-checking module activation from the core.
 
-### 4. Development Workflow
+### 4. Roles & Permissions (Authorization)
+- We use a **Permission-First Approach** using `spatie/laravel-permission`.
+- Do not hardcode specific role names in modules (unless checking for `Super Admin`).
+- Modules must seed their own granular permissions.
+- See `docs/roles_and_permissions.md` for complete implementation details and workflows.
+
+### 5. Development Workflow
 - When asked to create a new "feature", evaluate whether it belongs in an existing Module, requires a new Module, or is a Core utility. Err on the side of encapsulating business logic inside Modules.
 - Use `php artisan module:make <Name>` to scaffold new modules.
 - Ensure that the module's Plugin class implements `Filament\Contracts\Plugin` and uses the `$panel->resources([...])` method to register its own resources.
