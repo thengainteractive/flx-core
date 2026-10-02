@@ -1,7 +1,7 @@
 # FLX - Modular Laravel & Filament Admin Platform
 
 > A reusable, modular application foundation built on **Laravel 12** and **Filament 5**.  
-> Start any client project with a clean core (Authentication + User management), and effortlessly plug-and-play feature modules like Blog, Product Catalog, Menus, Invoicing, or custom business tools without touching the core code.
+> Start any project with a clean core (Authentication + User management), and effortlessly plug-and-play feature modules like Blog, Product Catalog, Menus, Invoicing, or custom business tools without touching the core code.
 
 ---
 
