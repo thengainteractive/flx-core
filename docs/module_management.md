@@ -77,3 +77,46 @@ To share a feature between Client A and Client B:
 2. Paste it into Project B's `Modules/` directory.
 3. Go to Project B's Admin Dashboard and click **Enable**.
 4. The admin panel instantly registers the navigation items, forms, tables, and routes.
+
+## Deploying a Module to a Remote Server
+
+When deploying a new or updated module to a remote server (e.g., staging or production), follow this generic checklist to ensure the module is fully registered, its database schema is updated, and its permissions are visible in the system.
+
+Replace `<ModuleName>` with your actual module's name (e.g., `Venue`, `Blog`, `Catalog`).
+
+1. **Pull Your Code**
+   Ensure your latest code, including the `Modules/<ModuleName>` directory, is pulled to the server.
+
+2. **Dump Autoloads / Install Dependencies**
+   Since the core uses `wikimedia/composer-merge-plugin`, the server's autoloader needs to discover the new module's files (like Seeders and Policies):
+   ```bash
+   composer dump-autoload
+   # Or: composer install --no-dev --optimize-autoloader
+   ```
+
+3. **Enable the Module**
+   Sometimes the `modules_statuses.json` file is ignored in version control, so the server might not know the module is active:
+   ```bash
+   php artisan module:enable <ModuleName>
+   ```
+
+4. **Run Migrations**
+   Execute the module's migrations to create or update its database tables:
+   ```bash
+   php artisan module:migrate <ModuleName> --force
+   ```
+   *(Note: The `--force` flag is required if your server environment is set to production).*
+
+5. **Seed Permissions and Data**
+   If the module has its own permissions or required default data, seed them:
+   ```bash
+   php artisan module:seed <ModuleName> --force
+   ```
+   *(Alternatively, if `module:seed` fails to locate the seeder due to caching issues, you can explicitly call the seeder class: `php artisan db:seed --class="Modules\<ModuleName>\Database\Seeders\<ModuleName>DatabaseSeeder" --force`)*
+
+6. **Clear Caches**
+   Crucially, you must clear the application caches so the frontend (Filament) and authorization packages (Spatie) pick up the new database rows and routes.
+   ```bash
+   php artisan permission:cache-reset
+   php artisan optimize:clear
+   ```
